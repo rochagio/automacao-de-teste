@@ -4,7 +4,7 @@ from guara import it
 from tests.transactions.login_transaction import LoginTransaction
 from tests.transactions.add_to_cart_transaction import AddToCartTransaction
 from tests.transactions.checkout_transaction import CheckoutTransaction
-from tests.transactions.finish_order_transaction import FinishOrder
+from tests.transactions.finish_order_transaction import FinishOrderTransaction
 from tests.fixtures.driver import driver
 
 
@@ -29,4 +29,4 @@ def test_checkout_ptp(driver):
         it.Contains, "checkout-step-two"
     )
 
-    app.when(FinishOrder).asserts(it.Contains, "Thank you")
+    app.when(FinishOrderTransaction).asserts(it.Contains, "Thank you")
