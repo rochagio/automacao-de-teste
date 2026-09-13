@@ -21,18 +21,18 @@ def test_checkout_ptp():
     try:
         app = Application(driver)
 
-    app = Application(webdriver.Chrome())
-    app.given(
-        LoginTransaction,
-        url="https://www.saucedemo.com",
-        user="standard_user",
-        password="secret_sauce",
-    ).then(it.Contains, "inventory")
-    app.when(AddToCartTransaction).asserts(it.Contains, "cart")
-    app.when(CheckoutTransaction, name="Douglas", last="Teste", zip_code="12345").asserts(
-        it.Contains, "checkout-step-two"
-    )
-    app.when(FinishOrderTransaction).asserts(it.Contains, "Thank you")
+        app = Application(webdriver.Chrome())
+        app.given(
+            LoginTransaction,
+            url="https://www.saucedemo.com",
+            user="standard_user",
+            password="secret_sauce",
+        ).then(it.Contains, "inventory")
+        app.when(AddToCartTransaction).asserts(it.Contains, "cart")
+        app.when(CheckoutTransaction, name="Douglas", last="Teste", zip_code="12345").asserts(
+            it.Contains, "checkout-step-two"
+        )
+        app.when(FinishOrderTransaction).asserts(it.Contains, "Thank you")
 
     finally:
         driver.quit()
