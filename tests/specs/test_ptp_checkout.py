@@ -10,6 +10,7 @@ from tests.transactions.finish_order_transaction import FinishOrderTransaction
 
 @pytest.mark.smoke
 def test_checkout_ptp():
+
     options = Options()
     options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
