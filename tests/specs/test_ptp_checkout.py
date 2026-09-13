@@ -1,39 +1,25 @@
 from guara.application import Application
-import pytest
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 from guara import it
-from tests.transactions.login_transaction import LoginTransaction
-from tests.transactions.add_to_cart_transaction import AddToCartTransaction
-from tests.transactions.checkout_transaction import CheckoutTransaction
-from tests.transactions.finish_order_transaction import FinishOrderTransaction
+from tests.transactions.login_transaction import LoginWith
+from tests.transactions.add_to_cart_transaction import AddProductToCart
+from tests.transactions.checkout_transaction import TheUSerDoesACheckoutWith
+from tests.transactions.finish_order_transaction import FinishOrder
+from tests.fixtures.driver import driver
 
-@pytest.mark.smoke
-def test_checkout_ptp():
+def test_checkout_ptp(driver):
+    app = Application(driver)
+    app.given(
+        LoginWith,
+        url="https://www.saucedemo.com",
+        user="standard_user",
+        password="secret_sauce",
+    ).then(it.Contains, "inventory")
 
-    options = Options()
-    options.add_argument("--headless=new")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--window-size=1920,1080")
+    app.when(AddProductToCart).asserts(it.Contains, "cart")
 
-    driver = webdriver.Chrome(options=options)
+    app.when(TheUSerDoesACheckoutWith, name="Douglas", last="Teste", zip_code="12345").asserts(
+        it.Contains, "checkout-step-two"
+    )
 
-    try:
-        app = Application(driver)
-
-        app = Application(webdriver.Chrome())
-        app.given(
-            LoginTransaction,
-            url="https://www.saucedemo.com",
-            user="standard_user",
-            password="secret_sauce",
-        ).then(it.Contains, "inventory")
-        app.when(AddToCartTransaction).asserts(it.Contains, "cart")
-        app.when(CheckoutTransaction, name="Douglas", last="Teste", zip_code="12345").asserts(
-            it.Contains, "checkout-step-two"
-        )
-        app.when(FinishOrderTransaction).asserts(it.Contains, "Thank you")
-
-    finally:
-        driver.quit()
+    app.when(FinishOrder).asserts(it.Contains, "Thank you")
