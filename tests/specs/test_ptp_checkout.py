@@ -1,13 +1,14 @@
 from guara.application import Application
 from selenium import webdriver
 from guara import it
+import pytest
 from tests.transactions.login_transaction import LoginTransaction
 from tests.transactions.add_to_cart_transaction import AddToCartTransaction
 from tests.transactions.checkout_transaction import CheckoutTransaction
 from tests.transactions.finish_order_transaction import FinishOrderTransaction
 from tests.fixtures.driver import driver
 
-
+@pytest.mark.smoke
 def test_checkout_ptp(driver):
     app = Application(driver)
 
