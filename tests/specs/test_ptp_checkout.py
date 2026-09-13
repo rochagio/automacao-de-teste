@@ -1,16 +1,18 @@
 from guara.application import Application
 from selenium import webdriver
 from guara import it
-from tests.transactions.login_transaction import LoginWith
+from tests.transactions.login_transaction import LoginTransaction
 from tests.transactions.add_to_cart_transaction import AddProductToCart
 from tests.transactions.checkout_transaction import TheUSerDoesACheckoutWith
 from tests.transactions.finish_order_transaction import FinishOrder
 from tests.fixtures.driver import driver
 
+
 def test_checkout_ptp(driver):
     app = Application(driver)
+
     app.given(
-        LoginWith,
+        LoginTransaction,
         url="https://www.saucedemo.com",
         user="standard_user",
         password="secret_sauce",
@@ -18,7 +20,12 @@ def test_checkout_ptp(driver):
 
     app.when(AddProductToCart).asserts(it.Contains, "cart")
 
-    app.when(TheUSerDoesACheckoutWith, name="Douglas", last="Teste", zip_code="12345").asserts(
+    app.when(
+        TheUSerDoesACheckoutWith,
+        name="Douglas",
+        last="Teste",
+        zip_code="12345"
+    ).asserts(
         it.Contains, "checkout-step-two"
     )
 
