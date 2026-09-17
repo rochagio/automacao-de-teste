@@ -1,4 +1,5 @@
 from guara.transaction import AbstractTransaction
+
 from tests.pages.inventory_page import InventoryPage
 
 

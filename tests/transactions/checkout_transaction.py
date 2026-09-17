@@ -1,4 +1,5 @@
 from guara.transaction import AbstractTransaction
+
 from tests.pages.cart_page import CartPage
 from tests.pages.checkout_page import CheckoutPage
 

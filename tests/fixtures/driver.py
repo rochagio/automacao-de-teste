@@ -1,8 +1,9 @@
-from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.options import Options
-import pytest
 import tempfile
+
+import pytest
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 @pytest.fixture
@@ -13,6 +14,7 @@ def driver():
     yield driver
 
     driver.quit()
+
 
 def driver_func():
     chrome_options = Options()
